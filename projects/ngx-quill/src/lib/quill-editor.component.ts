@@ -331,7 +331,7 @@ export abstract class QuillEditorBase implements AfterViewInit, ControlValueAcce
           this.quillEditor.setContents(newValue, 'silent')
         }
 
-        this.quillEditor.getModule('history').clear()
+        this.quillEditor.history.clear()
       }
 
       // initialize disabled status based on this.disabled as default value
@@ -640,7 +640,7 @@ export abstract class QuillEditorBase implements AfterViewInit, ControlValueAcce
     // trim text if wanted + handle special case that an empty editor contains a new line
     const textLength = this.trimOnValidation ? text.trim().length : (text.length === 1 && text.trim().length === 0 ? 0 : text.length - 1)
     const deltaOperations = this.quillEditor.getContents().ops
-    const onlyEmptyOperation = deltaOperations && deltaOperations.length === 1 && ['\n', ''].includes(deltaOperations[0].insert)
+    const onlyEmptyOperation = deltaOperations && deltaOperations.length === 1 && ['\n', ''].includes(String(deltaOperations[0].insert))
 
     if (this.minLength && textLength && textLength < this.minLength) {
       err.minLengthError = {
